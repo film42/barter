@@ -1,3 +1,5 @@
+#include <atomic>
+
 #include "test_helper.hpp"
 #include "book.hpp"
 #include "exchange.hpp"

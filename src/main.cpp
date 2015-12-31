@@ -13,6 +13,17 @@
 // public:
 // };
 
+class CustomNotifications : public Exchange::Notifications {
+public:
+  virtual void on_filled( Order<Buy> order) {
+    std::cout << "ORDER FILLED: " << order.to_string() << std::endl;
+  }
+
+  virtual void on_filled( Order<Sell> order) {
+    std::cout << "ORDER FILLED: " << order.to_string() << std::endl;
+  }
+};
+
 int main() {
   std::cout << std::endl;
 
@@ -50,6 +61,7 @@ int main() {
   std::cout << "Exchange Testing..." << std::endl;
 
   Exchange exchange("AAPL");
+  exchange.subscribe<CustomNotifications>();
 
   exchange.print();
 

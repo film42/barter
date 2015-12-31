@@ -9,5 +9,7 @@ test:
 clean:
 	rm barter
 	rm -r barter.dSYM
+	rm barter_tests
+	rm -r barter_tests.dSYM
 
 .PHONY: all test clean

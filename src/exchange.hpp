@@ -33,7 +33,9 @@ public:
     // Insert the new order if it's not FILLED
     if( new_order.get_status() != FILLED ) {
       side_book(side).insert( new_order );
-    } else if( new_order.get_status() == FILLED ) {
+    }
+
+    if( new_order.get_status() == FILLED ) {
       notify_filled( new_order );
     }
 
@@ -42,25 +44,39 @@ public:
       if( processed_order.get_status() == FILLED ) {
         notify_filled( processed_order );
       } else {
-        // What do we do here?
+        // TODO: Other notification events.
       }
     }
   }
 
   void print() {
-    std::cout << "Exchange for security: "  << get_security() << std::endl;
+    std::cout << "Exchange for security: " << get_security() << std::endl;
     m_buy_book.print();
     m_sell_book.print();
   }
 
+  class Notifications {
+  public:
+    virtual void on_filled( Order<Buy> order ) = 0;
+    virtual void on_filled( Order<Sell> order ) = 0;
+  };
+
+  template< typename T >
+  void subscribe() {
+    m_subscribers.push_back( std::unique_ptr<Notifications>(new T()));
+  }
+
 private:
   std::string m_security;
+  std::vector< std::unique_ptr<Notifications> > m_subscribers;
   Book<Buy> m_buy_book;
   Book<Sell> m_sell_book;
 
   template< class S >
   void notify_filled(Order<S> order) {
-    std::cout << "ORDER FILLED: " << order.to_string() << std::endl;
+    for( auto& subscriber : m_subscribers ) {
+      subscriber->on_filled( order );
+    }
   }
 
   template< class S >
