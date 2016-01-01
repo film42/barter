@@ -19,7 +19,7 @@ public:
       auto description = test_pair.first;
       auto body = test_pair.second;
 
-      std::cout << "it " << description << ": ";
+      std::cout << "It " << description << ": ";
       std::string output = body();
 
       if( output.empty() ) {
