@@ -1,7 +1,7 @@
 #include "test_helper.hpp"
 #include "order.hpp"
 
-describe(OrderTest, {
+describe(Order, {
   it("can create a buy order", []() {
     auto buy_order = Order<Buy>(50.00, 25);
     expect_eq(50.00, buy_order.get_price());

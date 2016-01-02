@@ -2,7 +2,7 @@
 #include "book.hpp"
 #include "order.hpp"
 
-describe(BookTest, {
+describe(Book, {
   it("can get the top of the book for Buy orders", []() {
     auto buy_book = Book<Buy>();
     buy_book.insert( Order<Buy>(10.00, 10) );

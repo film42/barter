@@ -107,17 +107,4 @@ private:
   float m_original_size;
 };
 
-//
-// Cross for each type
-//
-template<> template<> bool Order<Buy>::can_cross<Sell>(Order<Sell> order) {
-  // print_cross_details(order);
-  return order.get_price() <= get_price();
-}
-
-template<> template<> bool Order<Sell>::can_cross<Buy>(Order<Buy> order) {
-  // print_cross_details(order);
-  return order.get_price() >= get_price();
-}
-
 #endif // _ORDER_HPP_

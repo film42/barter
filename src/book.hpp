@@ -123,9 +123,4 @@ private:
   std::map<float, std::deque< Order<S> >> m_orders;
 };
 
-// This is important. The top of the BUY book should be the highest price. Meaining, the highest bidder
-// should match the lowest seller. The spread is what's inbetween.
-template<> Order<Buy> Book<Buy>::top_of_book() { return m_orders.rbegin()->second.front(); };
-template<> Order<Sell> Book<Sell>::top_of_book() { return m_orders.begin()->second.front(); };
-
 #endif // _BOOK_HPP_

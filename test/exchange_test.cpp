@@ -5,7 +5,7 @@
 #include "exchange.hpp"
 #include "order.hpp"
 
-describe(ExchangeTest, {
+describe(Exchange, {
   it("can give the exchange a security name", []() {
     auto exchange = Exchange("TSLA");
     expect_eq( "TSLA", exchange.get_security() );
