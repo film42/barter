@@ -5,6 +5,7 @@
 #include <map>
 #include <deque>
 #include <vector>
+#include <sstream>
 
 #include "order.hpp"
 
@@ -17,6 +18,10 @@ public:
   Book() {}
 
   Order<S> top_of_book();
+
+  void clear() {
+    m_orders.clear();
+  }
 
   bool is_empty() {
     return m_orders.empty();
@@ -101,15 +106,26 @@ public:
 
   // Print the book at each price.
   void print() {
-    std::cout << "Printing " << S::name() << " Book:" << std::endl;
+    std::cout << to_string() << std::endl;
+  }
+
+  std::string to_string() {
+    std::ostringstream output;
+    output << S::name() << " Book:" << std::endl;
 
     for( auto& entry : m_orders ) {
-      std::cout << "\tPrice: " << entry.first << std::endl;;
+      output << "\tPrice: " << entry.first << std::endl;
 
       for( auto& order : entry.second ) {
-        std::cout << "\t\t" << order.to_string() << std::endl;
+        output << "\t\t" << order.to_string() << std::endl;
       }
     }
+
+    if( m_orders.empty() ) {
+      output << "\tEmpty" << std::endl;
+    }
+
+    return output.str();
   }
 
 private:

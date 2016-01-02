@@ -2,6 +2,8 @@
 #define _EXCHANGE_HPP_
 
 #include <iostream>
+#include <sstream>
+
 #include "book.hpp"
 #include "order.hpp"
 
@@ -21,6 +23,11 @@ public:
 
   Book<Sell>& get_sell_book() {
     return m_sell_book;
+  }
+
+  void clear() {
+    m_buy_book.clear();
+    m_sell_book.clear();
   }
 
   template< class S >
@@ -50,9 +57,15 @@ public:
   }
 
   void print() {
-    std::cout << "Exchange for security: " << get_security() << std::endl;
-    m_buy_book.print();
-    m_sell_book.print();
+    std::cout << to_string() << std::endl;
+  }
+
+  std::string to_string() {
+    std::ostringstream output;
+    output << "Exchange for security: " << get_security() << std::endl;
+    output << m_buy_book.to_string();
+    output << m_sell_book.to_string();
+    return output.str();
   }
 
   class Notifications {

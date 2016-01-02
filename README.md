@@ -39,9 +39,29 @@ public:
 exchange.subscribe< CustomNotifications >();
 ```
 
+#### Server
+
+You can run a telnet server to send commands for playing around.
+
+```
+$ telnet localhost 3000
+Commands: 'buy', 'clear', 'sell', and 'print'
+> buy 10.00 25
+(Side: BUY, Id: vp52m8oq, Price: 10, Size: 25, Status: 0)
+> print
+Exchange for security: YOLO
+BUY Book:
+	Price: 10
+		(Side: BUY, Id: vp52m8oq, Price: 10, Size: 25, Status: 0)
+SELL Book:
+	Empty
+
+>
+```
+
 #### Testings and Running
 
-To run the sandbox example file, run `make` and it will build and run the `barter` executable.
+To run the telnet server, run `make` and it will build and run the `barter` executable which listens on port `3000`.
 
 If you want to run the test suite (which was made from scratch) you can run `make test`.
 

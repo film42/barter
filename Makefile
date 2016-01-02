@@ -1,4 +1,8 @@
 all:
+	g++ -g -std=c++11 -stdlib=libc++ -I src src/server.cpp -o barter
+	./barter
+
+playground:
 	g++ -g -std=c++11 -stdlib=libc++ -I src src/main.cpp -o barter
 	./barter
 
