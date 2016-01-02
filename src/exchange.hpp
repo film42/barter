@@ -2,6 +2,7 @@
 #define _EXCHANGE_HPP_
 
 #include <iostream>
+#include <mutex>
 #include <sstream>
 
 #include "book.hpp"
@@ -13,6 +14,9 @@
 class Exchange {
 public:
   Exchange( std::string security ) : m_security(security) {}
+
+  Exchange( const Exchange& copy )
+    : m_buy_book(copy.m_buy_book), m_sell_book(copy.m_sell_book), m_security(copy.m_security) {}
 
   std::string get_security() const { return m_security; }
   std::string set_security( std::string security ) { return m_security = security; }
@@ -26,12 +30,16 @@ public:
   }
 
   void clear() {
+    std::lock_guard<std::mutex> lock( m_mutex );
+
     m_buy_book.clear();
     m_sell_book.clear();
   }
 
   template< class S >
   void insert(Order<S> order) {
+    std::lock_guard<std::mutex> lock( m_mutex );
+
     S side;
     auto orders = opposite_side_book(side).cross( order );
     auto processed_orders = orders.first;
@@ -80,6 +88,7 @@ public:
   }
 
 private:
+  std::mutex m_mutex;
   std::string m_security;
   std::vector< std::unique_ptr<Notifications> > m_subscribers;
   Book<Buy> m_buy_book;
