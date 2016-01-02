@@ -45,7 +45,7 @@ You can run a telnet server to send commands for playing around.
 
 ```
 $ telnet localhost 3000
-Commands: 'buy', 'clear', 'sell', and 'print'
+Commands: 'buy <price> <size>', 'clear', 'sell <price> <size>', and 'print'
 > buy 10.00 25
 (Side: BUY, Id: vp52m8oq, Price: 10, Size: 25, Status: 0)
 > print
