@@ -30,19 +30,15 @@ public:
   // Cross the Side "S" (current side) with the opposite side "O".
   template< class O >
   std::pair< std::vector<Order<S>>, Order<O> > cross(Order<O> order) {
-    if( is_empty() ) {
-      return std::pair< std::vector<Order<S>>, Order<O> >({}, order);
-    }
+    auto opposite_order = order.copy();
+    std::vector<Order<S>> processed_orders;
 
-    auto top_order = top_of_book();
-
-    if( top_order.can_cross( order ) ) {
+    while( !is_empty() && top_of_book().can_cross( order ) && opposite_order.get_status() != FILLED ) {
+      auto top_order = top_of_book();
       auto new_top_order = top_order.copy();
-      auto opposite_order = order.copy();
-      std::vector<Order<S>> processed_orders;
 
       // When they match perfectly
-      if( top_order.get_size() == order.get_size() ) {
+      if( top_order.get_size() == opposite_order.get_size() ) {
         new_top_order.set_status(FILLED);
         new_top_order.set_size(0);
         processed_orders.push_back(new_top_order);
@@ -55,14 +51,13 @@ public:
       }
 
       // When Book has a larger size than Order
-      if( top_order.get_size() > order.get_size() ) {
+      if( top_order.get_size() > opposite_order.get_size() ) {
         new_top_order.set_status(PARTIAL);
-        new_top_order.set_size( top_order.get_size() - order.get_size() );
+        new_top_order.set_size( top_order.get_size() - opposite_order.get_size() );
+        processed_orders.push_back( new_top_order );
 
         m_orders[ top_order.get_price() ].pop_front();
         m_orders[ top_order.get_price() ].push_front( new_top_order );
-
-        processed_orders.push_back( new_top_order );
 
         // Now update the opposite order
         opposite_order.set_status(FILLED);
@@ -70,7 +65,7 @@ public:
       }
 
       // When Order has a larger size than Book
-      if( top_order.get_size() < order.get_size() ) {
+      if( top_order.get_size() < opposite_order.get_size() ) {
         auto new_top_order = top_order.copy();
         new_top_order.set_status(FILLED);
         new_top_order.set_size(0);
@@ -86,13 +81,9 @@ public:
       if( m_orders[ top_order.get_price() ].empty() ) {
         m_orders.erase( top_order.get_price() );
       }
-
-      return std::pair< std::vector<Order<S>>, Order<O> >(processed_orders, opposite_order);
     }
 
-
-    // Else: Return no new crossed orders and leave the order as it was.
-    return std::pair< std::vector<Order<S>>, Order<O> >({}, order);
+    return std::pair< std::vector<Order<S>>, Order<O> >(processed_orders, opposite_order);
   }
 
   void insert(Order<S> order) {

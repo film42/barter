@@ -26,7 +26,7 @@ public:
         std::cout << "\033[1;32mpassed\033[0m." << std::endl;
       } else {
         std::cout << "\033[1;31mfailed\033[0m." << std::endl;
-        std::cout << "\033[1;31m  Because " << output << "\033[0m" << std::endl;
+        std::cout << "\033[1;31m  " << output << "\033[0m" << std::endl;
       }
     }
   }
@@ -45,19 +45,23 @@ namespace __internal__ {
 // Init the tests vector
 std::vector< std::pair< std::string, std::function<std::string ()> > > TestHelper::s_tests = {};
 
+static std::string  __bool_to_string( bool some_bool ) {
+  return some_bool ? "true" : "false";
+}
+
 #define done() { return std::string(); }
 #define it(description, body) TestHelper::it(description, body);
 #define expect_eq(expected, actual) do {                                \
     if( expected != actual ) {                                          \
       std::ostringstream output;                                        \
-      output << "\"" << expected << "\" is not equal to \"" << actual << "\" "; \
+      output << "Expected \"" << expected << "\" but got \"" << actual << "\" "; \
       output << "in " __FILE__ << ":" << __LINE__ << ".";               \
       return output.str();                                              \
     }                                                                   \
   } while(false)
 
-#define expect_true(a) expect_eq(true, a)
-#define expect_false(a) expect_eq(false, a)
+#define expect_true(a) expect_eq( "true", __bool_to_string(a) )
+#define expect_false(a) expect_eq( "false", __bool_to_string(a) )
 
 #define describe(klass, tests)                      \
   namespace __internal__ {                          \
