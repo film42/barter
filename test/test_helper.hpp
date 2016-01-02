@@ -1,11 +1,16 @@
 #ifndef _TEST_HELPER_HPP_
 #define _TEST_HELPER_HPP_
 
+#include <algorithm>
+#include <ctime>
 #include <functional>
 #include <iostream>
+#include <mutex>
+#include <random>
 #include <sstream>
+#include <unordered_map>
 #include <vector>
-#include <map>
+
 
 class TestHelper {
 public:
@@ -22,13 +27,25 @@ public:
     s_tests[ s_klass_name ].push_back( test_group );
   }
 
+  static void lock() { s_add_test_mutex.lock(); }
+  static void unlock() { s_add_test_mutex.unlock(); }
+
   static void run() {
-    std::cout << "Running test suite." << std::endl;
+    // Set seed to current time
+    std::srand( std::time(0) );
+
+    std::cout << "Running test suite with seed: " << std::time(0) << std::endl;
 
     for( auto& test_group : s_tests ) {
       std::cout << "Describe " << test_group.first << std::endl;
+      auto test_group_tests = test_group.second;
 
-      for( auto& test_pair : test_group.second ) {
+      // Shuffle "it" level test groups
+      std::random_device device;
+      std::mt19937 generator( device() );
+      std::shuffle( test_group_tests.begin(), test_group_tests.end(), generator );
+
+      for( auto& test_pair :  test_group_tests ) {
         auto description = test_pair.first;
         auto body = test_pair.second;
 
@@ -46,8 +63,9 @@ public:
   }
 
 private:
+  static std::mutex s_add_test_mutex;
   static std::string s_klass_name;
-  static std::map< std::string, std::vector< std::pair< std::string, std::function<std::string ()> > > > s_tests;
+  static std::unordered_map< std::string, std::vector< std::pair< std::string, std::function<std::string ()> > > > s_tests;
 };
 
 static std::string  __bool_to_string( bool some_bool ) {
@@ -72,7 +90,12 @@ static std::string  __bool_to_string( bool some_bool ) {
   namespace __internal__ {                                              \
     class _class_name(klass) {                                               \
     public:                                                             \
-    _class_name(klass)() { ::TestHelper::describe(#klass); tests }           \
+      _class_name(klass)() {                                            \
+        ::TestHelper::lock();                                           \
+        ::TestHelper::describe(#klass);                                 \
+        tests                                                           \
+        ::TestHelper::unlock();                                         \
+      }                                                                 \
     private:                                                            \
     static __internal__::_class_name(klass) _self_ref;                               \
     };                                                                  \
