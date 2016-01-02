@@ -26,6 +26,15 @@ public:
     await_connections();
   }
 
+private:
+  std::unordered_map< int, std::string > m_socket_buffer;
+  Exchange& m_exchange;
+  int m_server;
+
+  std::string welcome_message() {
+    return "Commands: 'buy <price> <size>', 'clear', 'sell <price> <size>', and 'print'";
+  }
+
   void await_connections() {
     int clients[30];
     int max_clients = 30;
@@ -191,10 +200,6 @@ public:
     return output;
   }
 
-  std::string welcome_message() {
-    return "Commands: 'buy', 'clear', 'sell', and 'print'";
-  }
-
   void bind_and_listen( int port ) {
     struct sockaddr_in server_address;
 
@@ -306,11 +311,6 @@ public:
     }
     return true;
   }
-
-private:
-  std::unordered_map< int, std::string > m_socket_buffer;
-  Exchange& m_exchange;
-  int m_server;
 };
 
 #endif // _SERVER_HPP_
