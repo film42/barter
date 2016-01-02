@@ -50,7 +50,8 @@ std::vector< std::pair< std::string, std::function<std::string ()> > > TestHelpe
 #define expect_eq(expected, actual) do {                                \
     if( expected != actual ) {                                          \
       std::ostringstream output;                                        \
-      output << "\"" << expected << "\" is not equal to \"" << actual << "\"."; \
+      output << "\"" << expected << "\" is not equal to \"" << actual << "\" "; \
+      output << "in " __FILE__ << ":" << __LINE__ << ".";               \
       return output.str();                                              \
     }                                                                   \
   } while(false)
