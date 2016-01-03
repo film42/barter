@@ -85,23 +85,21 @@ inline std::string  __bool_to_string( bool some_bool ) {
 
 #define expect_true(a) expect_eq( "true", __bool_to_string(a) )
 #define expect_false(a) expect_eq( "false", __bool_to_string(a) )
-#define _class_name(klass) __##klass##Test__
+#define _class_name(klass) __spec__##klass##Test__
 #define describe(klass, tests)                                          \
-  namespace __internal__ {                                              \
-    class _class_name(klass) {                                               \
-    public:                                                             \
-      _class_name(klass)() {                                            \
-        ::TestHelper::lock();                                           \
-        ::TestHelper::describe(#klass);                                 \
-        tests                                                           \
-        ::TestHelper::unlock();                                         \
-      }                                                                 \
-    private:                                                            \
-    static __internal__::_class_name(klass) _self_ref;                               \
-    };                                                                  \
-  }                                                                     \
+  class _class_name(klass) {                                            \
+  public:                                                               \
+    _class_name(klass)() {                                              \
+      ::TestHelper::lock();                                             \
+      ::TestHelper::describe(#klass);                                   \
+      tests;                                                            \
+      ::TestHelper::unlock();                                           \
+    }                                                                   \
+  private:                                                              \
+    static _class_name(klass) _self_ref;                                \
+  };                                                                    \
                                                                         \
-  __internal__::_class_name(klass) __internal__::_class_name(klass)::_self_ref = __internal__::_class_name(klass)(); \
+  _class_name(klass) _class_name(klass)::_self_ref = _class_name(klass)(); \
 
 #define RUN_TESTS() { ::TestHelper::run(); }
 
