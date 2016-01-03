@@ -1,5 +1,4 @@
 #include "test_helper.hpp"
-#include "order.hpp"
 
 describe(Order, {
   it("can create a buy order", []() {

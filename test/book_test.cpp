@@ -1,6 +1,4 @@
 #include "test_helper.hpp"
-#include "book.hpp"
-#include "order.hpp"
 
 describe(Book, {
   it("can get the top of the book for Buy orders", []() {

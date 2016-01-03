@@ -1,9 +1,4 @@
-#include <atomic>
-
 #include "test_helper.hpp"
-#include "book.hpp"
-#include "exchange.hpp"
-#include "order.hpp"
 
 describe(Exchange, {
   it("can give the exchange a security name", []() {

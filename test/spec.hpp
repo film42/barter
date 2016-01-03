@@ -1,5 +1,5 @@
-#ifndef _TEST_HELPER_HPP_
-#define _TEST_HELPER_HPP_
+#ifndef _SPEC_HPP_
+#define _SPEC_HPP_
 
 #include <algorithm>
 #include <ctime>
@@ -11,8 +11,7 @@
 #include <unordered_map>
 #include <vector>
 
-
-class TestHelper {
+class Spec {
 public:
   static void describe( std::string klass_name ) {
     s_klass_name = klass_name;
@@ -73,7 +72,7 @@ inline std::string  __bool_to_string( bool some_bool ) {
 }
 
 #define done() { return std::string(); }
-#define it(description, body) TestHelper::it(description, body);
+#define it(description, body) Spec::it(description, body);
 #define expect_eq(expected, actual) do {                                \
     if( expected != actual ) {                                          \
       std::ostringstream output;                                        \
@@ -90,10 +89,10 @@ inline std::string  __bool_to_string( bool some_bool ) {
   class _class_name(klass) {                                            \
   public:                                                               \
     _class_name(klass)() {                                              \
-      ::TestHelper::lock();                                             \
-      ::TestHelper::describe(#klass);                                   \
+      ::Spec::lock();                                             \
+      ::Spec::describe(#klass);                                   \
       tests;                                                            \
-      ::TestHelper::unlock();                                           \
+      ::Spec::unlock();                                           \
     }                                                                   \
   private:                                                              \
     static _class_name(klass) _self_ref;                                \
@@ -101,6 +100,6 @@ inline std::string  __bool_to_string( bool some_bool ) {
                                                                         \
   _class_name(klass) _class_name(klass)::_self_ref = _class_name(klass)(); \
 
-#define RUN_TESTS() { ::TestHelper::run(); }
+#define RUN_TESTS() { ::Spec::run(); }
 
-#endif // _TEST_HELPER_HPP_
+#endif // _SPEC_HPP_
