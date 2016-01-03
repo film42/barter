@@ -1,7 +1,7 @@
 #include "test_helper.hpp"
 
 describe(Book, {
-  it("can get the top of the book for Buy orders", []() {
+  it("can get the top of the book for Buy orders", {
     auto buy_book = Book<Buy>();
     buy_book.insert( Order<Buy>(10.00, 10) );
     buy_book.insert( Order<Buy>(20.00, 10) );
@@ -9,7 +9,7 @@ describe(Book, {
     done();
   })
 
-  it("can get the top of the book for Sell orders", []() {
+  it("can get the top of the book for Sell orders", {
     auto sell_book = Book<Sell>();
     sell_book.insert( Order<Sell>(10.00, 10) );
     sell_book.insert( Order<Sell>(20.00, 10) );
@@ -17,7 +17,7 @@ describe(Book, {
     done();
   })
 
-  it("can cross an order of equal size", []() {
+  it("can cross an order of equal size", {
     auto sell_book = Book<Sell>();
     sell_book.insert( Order<Sell>(10.00, 10) );
 
@@ -37,7 +37,7 @@ describe(Book, {
     done();
   })
 
-  it("can cross an order of greater size", []() {
+  it("can cross an order of greater size", {
     auto sell_book = Book<Sell>();
     sell_book.insert( Order<Sell>(10.00, 10) );
 
@@ -57,7 +57,7 @@ describe(Book, {
     done();
   })
 
-  it("can cross an order of lesser size", []() {
+  it("can cross an order of lesser size", {
     auto sell_book = Book<Sell>();
     sell_book.insert( Order<Sell>(10.00, 10) );
 
@@ -78,7 +78,7 @@ describe(Book, {
     done();
   })
 
-  it("can cross using multiple top of book orders", []() {
+  it("can cross using multiple top of book orders", {
     auto sell_book = Book<Sell>();
     sell_book.insert( Order<Sell>(10.00, 10) );
     sell_book.insert( Order<Sell>(10.00, 10) );
@@ -106,7 +106,7 @@ describe(Book, {
     done();
   })
 
-  it("can cross using multiple top of book orders and end with a partially filled order", []() {
+  it("can cross using multiple top of book orders and end with a partially filled order", {
     auto sell_book = Book<Sell>();
     sell_book.insert( Order<Sell>(10.00, 10) );
     sell_book.insert( Order<Sell>(10.00, 10) );

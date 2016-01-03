@@ -1,13 +1,13 @@
 #include "test_helper.hpp"
 
 describe(Exchange, {
-  it("can give the exchange a security name", []() {
+  it("can give the exchange a security name", {
     auto exchange = Exchange("TSLA");
     expect_eq( "TSLA", exchange.get_security() );
     done();
   })
 
-  it("can cross orders of the same size", []() {
+  it("can cross orders of the same size", {
     auto exchange = Exchange("TSLA");
     exchange.insert( Order<Buy>(10.00, 40) );
     exchange.insert( Order<Sell>(10.00, 40) );
@@ -16,7 +16,7 @@ describe(Exchange, {
     done();
   })
 
-  it("can cross an order of greater size", []() {
+  it("can cross an order of greater size", {
     auto exchange = Exchange("TSLA");
     exchange.insert( Order<Buy>(10.00, 40) );
     exchange.insert( Order<Sell>(10.00, 80) );
@@ -27,7 +27,7 @@ describe(Exchange, {
     done();
   })
 
-  it("can cross an order of greater size", []() {
+  it("can cross an order of greater size", {
     auto exchange = Exchange("TSLA");
     exchange.insert( Order<Buy>(10.00, 80) );
     exchange.insert( Order<Sell>(10.00, 40) );

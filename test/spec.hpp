@@ -72,7 +72,7 @@ inline std::string  __bool_to_string( bool some_bool ) {
 }
 
 #define done() { return std::string(); }
-#define it(description, body) Spec::it(description, body);
+#define it(description, body) Spec::it(description, [](){ body });
 #define expect_eq(expected, actual) do {                                \
     if( expected != actual ) {                                          \
       std::ostringstream output;                                        \
