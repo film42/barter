@@ -89,10 +89,10 @@ inline std::string  __bool_to_string( bool some_bool ) {
   class _class_name(klass) {                                            \
   public:                                                               \
     _class_name(klass)() {                                              \
-      ::Spec::lock();                                             \
-      ::Spec::describe(#klass);                                   \
+      ::Spec::lock();                                                   \
+      ::Spec::describe(#klass);                                         \
       tests;                                                            \
-      ::Spec::unlock();                                           \
+      ::Spec::unlock();                                                 \
     }                                                                   \
   private:                                                              \
     static _class_name(klass) _self_ref;                                \
