@@ -68,7 +68,7 @@ private:
   static std::unordered_map< std::string, std::vector< std::pair< std::string, std::function<std::string ()> > > > s_tests;
 };
 
-static std::string  __bool_to_string( bool some_bool ) {
+inline std::string  __bool_to_string( bool some_bool ) {
   return some_bool ? "true" : "false";
 }
 

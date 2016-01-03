@@ -88,11 +88,11 @@ public:
   }
 
 private:
+  Book<Buy> m_buy_book;
+  Book<Sell> m_sell_book;
   std::mutex m_mutex;
   std::string m_security;
   std::vector< std::unique_ptr<Notifications> > m_subscribers;
-  Book<Buy> m_buy_book;
-  Book<Sell> m_sell_book;
 
   template< class S >
   void notify_filled(Order<S> order) {

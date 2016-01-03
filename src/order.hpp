@@ -101,9 +101,9 @@ private:
   }
 
   std::string m_id;
-  OrderStatus m_status;
   float m_price;
   float m_size;
+  OrderStatus m_status;
   float m_original_size;
 };
 
